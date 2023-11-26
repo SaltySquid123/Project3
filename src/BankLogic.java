@@ -17,7 +17,8 @@ public class BankLogic {
             System.out.println(i + 1 + ". " + bankList.get(i).getInfo());
         }
         choiceB = (int) scan.nextDouble();
-        bank = bankList.get(choiceB - 1);
+
+        bankList.get(choiceB - 1);
     }
     public void start(){
         System.out.println("Welcome to our banking app!");
@@ -28,8 +29,10 @@ public class BankLogic {
         String tempName = scan.nextLine();
         System.out.println("What account do you want? Saving or checking");
         String tempType = scan.nextLine();
+        System.out.println("Please make a password for this account: ");
+        String tempPass = scan.nextLine();
         System.out.println("It will start with 0 dollars");
-        bank = new Bank(tempName, tempType);
+        bank = new Bank(tempName, tempType, tempPass);
         bankList.add(bank);
 
         while (choice != 6) {
@@ -53,11 +56,12 @@ public class BankLogic {
         if (choice == 1) {
             System.out.println("What would you like to name it?");
             String tempName = scan.nextLine();
-            scan.nextLine();
             System.out.println("What account do you want? Saving or checking");
             String tempType = scan.nextLine();
+            System.out.println("Please add a password: ");
+            String pass = scan.nextLine();
             System.out.println("It will start with 0 dollars");
-            bank2 = new Bank(tempName, tempType, 0);
+            bank2 = new Bank(tempName, tempType, pass);
             bankList.add(bank2);
 
             System.out.println("__________________________");

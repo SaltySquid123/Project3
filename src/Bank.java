@@ -4,22 +4,30 @@ public class Bank {
     private int balance = 0;
     private String password;
 
+    public void setPassword(String newPass){
+        password = newPass;
+    }
+    public String getPassword(){
+        return password;
+    }
 
+    public Bank(String name, String type, int balance, String password){
+        this.name = name;
+        this.type = type;
+        this.balance = balance;
+        this.password = password;
+    }
+    public Bank(String name, String type, String password){
+        this.name = name;
+        this.type = type;
+        balance = 0;
+        this.password = password;
+    }
     public int getBalance(){
         return balance;
     }
     public String getInfo(){
         return "_______________________\nName: " + name + "\nType: " + type + "\nBalance: " + balance;
-    }
-    public Bank(String name, String type, int balance){
-        this.name = name;
-        this.type = type;
-        this.balance = balance;
-    }
-    public Bank(String name, String type){
-        this.name = name;
-        this.type = type;
-        balance = 0;
     }
     public void deposit(double amount){
         balance += amount;
