@@ -2,13 +2,30 @@ public class Bank {
     private String name;
     private String type;
     private int balance = 0;
+    private String password;
+
+
+    public int getBalance(){
+        return balance;
+    }
+    public String getInfo(){
+        return "_______________________\nName: " + name + "\nType: " + type + "\nBalance: " + balance;
+    }
     public Bank(String name, String type, int balance){
         this.name = name;
         this.type = type;
         this.balance = balance;
     }
+    public Bank(String name, String type){
+        this.name = name;
+        this.type = type;
+        balance = 0;
+    }
     public void deposit(double amount){
         balance += amount;
+    }
+    public void deposit(){
+        balance = balance;
     }
     public void withdraw(double amount) {
         if (balance > amount) {
@@ -18,19 +35,14 @@ public class Bank {
         System.out.println("Error! You don't have enough money");
         }
     }
-    public int getBalance(){
-        return balance;
-    }
-    public String getInfo(){
-        return "Name: " + name + "\nType: " + type + "\nBalance: " + balance;
-    }
-
-
-    public boolean transfer(Bank otherBank, int amt) {
-        // if otherBanks has enough money
-        otherBank.withdraw(amt);
-        deposit(amt);
-        return true;
-        //else
+    public boolean transferFrom(Bank otherBank, int amt) {
+        if (otherBank.balance > amt || otherBank.balance == amt) {
+            otherBank.withdraw(amt);
+            deposit(amt);
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
