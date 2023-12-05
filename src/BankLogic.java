@@ -10,16 +10,28 @@ public class BankLogic {
         bank = null;
         scan = new Scanner(System.in);
     }
-    private void getBank(){
+    private Bank getBank(){
+        Bank tempbank;
+        Bank bankFinal = null;
         int choiceB = 0;
         for (int i = 0; i < bankList.size(); i++) {
             System.out.println("_____________");
             System.out.println(i + 1 + ". " + bankList.get(i).getInfo());
         }
         choiceB = (int) scan.nextDouble();
-
-        bankList.get(choiceB - 1);
+        tempbank = bankList.get(choiceB - 1);
+        scan.nextLine();
+        System.out.println("Please enter the password for this account: ");
+        String pass = scan.nextLine();
+        while (!tempbank.checkPassword(pass)) {
+            System.out.println("Wrong password, please try again!" );
+            System.out.println("Please enter the password for this account: ");
+            pass = scan.nextLine();
+        }
+        return bankFinal; 
     }
+    /* ADD IF STATEMENT TO ACCESS ACcouNT ALSO UPDATE GETBANK METHOD TO WORK BETTER, also add a new create acc method to make an an
+        acc with set balance */
     public void start(){
         System.out.println("Welcome to our banking app!");
         System.out.println();
@@ -32,7 +44,7 @@ public class BankLogic {
         System.out.println("Please make a password for this account: ");
         String tempPass = scan.nextLine();
         System.out.println("It will start with 0 dollars");
-        bank = new Bank(tempName, tempType, tempPass);
+        bank = new Bank(tempName, tempType,0, tempPass);
         bankList.add(bank);
 
         while (choice != 6) {
@@ -54,22 +66,36 @@ public class BankLogic {
     }
     public void doStuff(){
         if (choice == 1) {
-            System.out.println("What would you like to name it?");
-            String tempName = scan.nextLine();
-            System.out.println("What account do you want? Saving or checking");
-            String tempType = scan.nextLine();
-            System.out.println("Please add a password: ");
-            String pass = scan.nextLine();
-            System.out.println("It will start with 0 dollars");
-            bank2 = new Bank(tempName, tempType, pass);
-            bankList.add(bank2);
-
-            System.out.println("__________________________");
-            System.out.println(bank.getInfo());
+            scan.nextLine();
+            System.out.println("Do you want a starting balance? y/n");
+            String choice = scan.nextLine();
+            if (choice.equals("n") || choice.equals("N")) {
+                System.out.println("What would you like to name it?");
+                String tempName = scan.nextLine();
+                System.out.println("What account do you want? Saving or checking");
+                String tempType = scan.nextLine();
+                System.out.println("Please add a password: ");
+                String pass = scan.nextLine();
+                System.out.println("It will start with 0 dollars");
+                bank2 = new Bank(tempName, tempType, pass);
+                bankList.add(bank2);
+            }
+            else if (choice.equals("Y") || choice.equals("y")){
+                System.out.println("What would you like to name it?");
+                String tempName = scan.nextLine();
+                System.out.println("What account do you want? Saving or checking");
+                String tempType = scan.nextLine();
+                System.out.println("Please add a password: ");
+                String pass = scan.nextLine();
+                System.out.println("How much do you want to start with?");
+                double balance = scan.nextInt();
+                bank2 = new Bank(tempName, tempType, balance, pass);
+                bankList.add(bank2);
+            }
         }
         else if (choice == 2){
             System.out.println("What account would you like to withdraw from?");
-            getBank();
+            bank = getBank();
             System.out.println("How much do you want to withdraw?");
             double amt = scan.nextDouble();
             bank.withdraw(amt);
@@ -77,7 +103,7 @@ public class BankLogic {
         }
         else if (choice == 3) {
             System.out.println("Which account do you want to deposit into?");
-            getBank();
+            bank = getBank();
             System.out.println("How much would you like to deposit?");
             double amt = scan.nextDouble();
             bank.deposit(amt);
@@ -93,23 +119,11 @@ public class BankLogic {
             Bank withdrawB;
             Bank depositB;
 
-            int choiceB = 0;
-            System.out.println("Which account do you want to transfer from?\n");
-            for (int i = 0; i < bankList.size(); i++){
-                System.out.println("___________________");
-                System.out.println(i + 1 + ". " + bankList.get(i).getInfo());
-            }
-            choiceB = scan.nextInt();
-            withdrawB = bankList.get(choiceB - 1);
+            System.out.println("Which account do you want to transfer out of?");
+            withdrawB = getBank();
 
-            int choiceD = 0;
             System.out.println("Which account do you want to transfer into?\n");
-            for (int i = 0; i < bankList.size(); i++){
-                System.out.println("___________________");
-                System.out.println(i + 1 + ". " + bankList.get(i).getInfo());
-            }
-            choiceD = scan.nextInt();
-            depositB = bankList.get(choiceD -1);
+            depositB = getBank();
 
             System.out.println("How much do you want to transfer?");
             int amt = scan.nextInt();
