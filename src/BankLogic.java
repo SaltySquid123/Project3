@@ -2,12 +2,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 public class BankLogic {
     private Scanner scan;
-    private Bank bank;
+    private Bank selectedBank;
     private Bank bank2;
     private int choice;
     private ArrayList<Bank> bankList = new ArrayList<>();
     public BankLogic(){
-        bank = null;
+        selectedBank = null;
         scan = new Scanner(System.in);
     }
     private Bank getBank(){
@@ -28,7 +28,7 @@ public class BankLogic {
             System.out.println("Please enter the password for this account: ");
             pass = scan.nextLine();
         }
-        return bankFinal; 
+        return tempbank;
     }
     /* ADD IF STATEMENT TO ACCESS ACcouNT ALSO UPDATE GETBANK METHOD TO WORK BETTER, also add a new create acc method to make an an
         acc with set balance */
@@ -44,8 +44,8 @@ public class BankLogic {
         System.out.println("Please make a password for this account: ");
         String tempPass = scan.nextLine();
         System.out.println("It will start with 0 dollars");
-        bank = new Bank(tempName, tempType,0, tempPass);
-        bankList.add(bank);
+        Bank initialBank = new Bank(tempName, tempType,0, tempPass);
+        bankList.add(initialBank);
 
         while (choice != 6) {
             printMenu();
@@ -95,19 +95,19 @@ public class BankLogic {
         }
         else if (choice == 2){
             System.out.println("What account would you like to withdraw from?");
-            bank = getBank();
+            selectedBank = getBank();
             System.out.println("How much do you want to withdraw?");
             double amt = scan.nextDouble();
-            bank.withdraw(amt);
-            System.out.println("You have " + bank.getBalance() + "$ in your account");
+            selectedBank.withdraw(amt);
+            System.out.println("You have " + selectedBank.getBalance() + "$ in your account");
         }
         else if (choice == 3) {
             System.out.println("Which account do you want to deposit into?");
-            bank = getBank();
+            selectedBank = getBank();
             System.out.println("How much would you like to deposit?");
             double amt = scan.nextDouble();
-            bank.deposit(amt);
-            System.out.println("You have " + bank.getBalance() + "$ in your account");
+            selectedBank.deposit(amt);
+            System.out.println("You have " + selectedBank.getBalance() + "$ in your account");
         }
         else if (choice == 4) {
             for (int i = 0; i < bankList.size(); i++) {
@@ -142,10 +142,10 @@ public class BankLogic {
             int amt = (int) (Math.random() * 150) + 1;
             getBank();
             if (wOrD == 1){
-                bank.withdraw(amt);
+                selectedBank.withdraw(amt);
             }
             else if (wOrD == 2){
-                bank.deposit(amt);
+                selectedBank.deposit(amt);
             }
 
         }
